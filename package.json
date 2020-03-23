@@ -1,0 +1,26 @@
+{
+  "name": "fossil-waves",
+  "version": "1.0.0",
+  "description": "An wave animation with EcmaScript, p5 and webpack.",
+  "main": "main.js",
+  "repository": "https://github.com/gfonseca/fossil-waves",
+  "author": "Georgio Barbosa da Fonseca",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --host 0.0.0.0 --mode development",
+    "watch": "webpack --watch"
+  },
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "moment": "^2.24.0",
+    "p5": "^1.0.0",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
