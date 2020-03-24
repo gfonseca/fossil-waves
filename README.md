@@ -14,3 +14,5 @@ yarn
 ```sh
 yarn start
 ```
+
+After that it's avaliable at http://localhost:8080/
