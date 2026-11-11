@@ -1,0 +1,30 @@
+# Build
+/build/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+CTestTestfile.cmake
+Makefile
+Testing/
+
+# Objetos / binários
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.exe
+
+# Editor / IDE
+.zed/
+.cache/
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
