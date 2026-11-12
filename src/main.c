@@ -16,42 +16,41 @@ typedef struct {
   bool active;
 } Drop;
 
-Color WAVE_COLOR = {255, 130, 60, 255};
+Color WAVE_COLOR = BLUE;
 Drop dropList[DROPS_SIZE];
 int dropCount = 0;
 
 // Shader de glow (pós-processamento, um único passe)
-const char *glowFs =
-    "#version 330\n"
-    "in vec2 fragTexCoord;\n"
-    "in vec4 fragColor;\n"
-    "out vec4 finalColor;\n"
-    "uniform sampler2D texture0;\n"
-    "uniform vec2 resolution;\n"
-    "uniform float intensity;\n"
-    "void main() {\n"
-    "    vec2 texel = 1.0 / resolution;\n"
-    "    vec3 color = texture(texture0, fragTexCoord).rgb;\n"
-    "    vec3 blur = vec3(0.0);\n"
-    "    float wsum = 0.0;\n"
-    "    for (int x = -3; x <= 3; x++) {\n"
-    "        for (int y = -3; y <= 3; y++) {\n"
-    "            float w = exp(-float(x*x + y*y) / 8.0);\n"
-    "            blur += texture(texture0, fragTexCoord + "
-    "vec2(float(x), float(y)) * texel * 2.0).rgb * w;\n"
-    "            wsum += w;\n"
-    "        }\n"
-    "    }\n"
-    "    blur /= wsum;\n"
-    "    vec3 glow = blur * intensity;\n"
-    "    finalColor = vec4(color + glow, 1.0);\n"
-    "}\n";
+const char *glowFs = "#version 330\n"
+                     "in vec2 fragTexCoord;\n"
+                     "in vec4 fragColor;\n"
+                     "out vec4 finalColor;\n"
+                     "uniform sampler2D texture0;\n"
+                     "uniform vec2 resolution;\n"
+                     "uniform float intensity;\n"
+                     "void main() {\n"
+                     "    vec2 texel = 1.0 / resolution;\n"
+                     "    vec3 color = texture(texture0, fragTexCoord).rgb;\n"
+                     "    vec3 blur = vec3(0.0);\n"
+                     "    float wsum = 0.0;\n"
+                     "    for (int x = -3; x <= 3; x++) {\n"
+                     "        for (int y = -3; y <= 3; y++) {\n"
+                     "            float w = exp(-float(x*x + y*y) / 8.0);\n"
+                     "            blur += texture(texture0, fragTexCoord + "
+                     "vec2(float(x), float(y)) * texel * 2.0).rgb * w;\n"
+                     "            wsum += w;\n"
+                     "        }\n"
+                     "    }\n"
+                     "    blur /= wsum;\n"
+                     "    vec3 glow = blur * intensity;\n"
+                     "    finalColor = vec4(color + glow, 1.0);\n"
+                     "}\n";
 
 Drop NewDrop() {
   int x = GetRandomValue(-300, WINDOW_WIDTH);
   int y = GetRandomValue(-300, WINDOW_HEIGHT);
   int radius = GetRandomValue(10, 500);
-  float radiusRate = (float)GetRandomValue(5, 40) / 10;
+  float radiusRate = (float)GetRandomValue(5, 140) / 10;
   return (Drop){x, y, radius, radiusRate, true};
 }
 
@@ -90,7 +89,7 @@ void DrawEllipseLinesThick(int cx, int cy, float rh, float rv, Color color,
 }
 
 void DrawDrop(Drop d) {
-  DrawEllipseLinesThick(d.x, d.y, d.radius, d.radius / 2, WAVE_COLOR, 5.0f);
+  DrawEllipseLinesThick(d.x, d.y, d.radius, d.radius / 2, WAVE_COLOR, 10.0f);
 }
 
 void Setup() {
@@ -114,7 +113,7 @@ int main(void) {
   }
 
   float resolution[2] = {(float)WINDOW_WIDTH, (float)WINDOW_HEIGHT};
-  float glowIntensity = 1.0f;
+  float glowIntensity = 2.0f;
   int resLoc = GetShaderLocation(glow, "resolution");
   int intLoc = GetShaderLocation(glow, "intensity");
   SetShaderValue(glow, resLoc, resolution, SHADER_UNIFORM_VEC2);
@@ -144,7 +143,7 @@ int main(void) {
     dropCount = CountActiveDrops(dropList);
 
     DrawRectangleRec((Rectangle){0, 0, WINDOW_WIDTH, WINDOW_HEIGHT},
-                     (Color){0, 0, 0, 20});
+                     (Color){0, 0, 0, 10});
     EndTextureMode();
 
     // Mostra a folha na tela com o efeito de glow (Y negativo corrige o flip)
